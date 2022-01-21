@@ -1,14 +1,24 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
-ctx.beginPath();
-ctx.arc(240, 160, 20, 0, Math.PI*2, false);
-ctx.fillStyle = "green";
-ctx.stroke();
-ctx.closePath();
+var x = canvas.width/2;
+var y = canvas.height/2;
 
-ctx.beginPath();
-ctx.rect(20, 40, 50, 50);
-ctx.fillStyle = "#FF0000";
-ctx.fill();
-ctx.closePath();
+var dx = 2;
+var dy = -2;
+var r = 10;
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI*2);
+    ctx.fillStyle = "#0095DD";
+    ctx.fill();
+    ctx.closePath();
+    x+=dx;
+    y+=dy;
+    if(x<=r)dx=2;
+    else if(x+r>=canvas.width)dx=-2;
+    if(y<=r)dy=2;
+    else if(y+r>=canvas.height)dy=-2;
+}
+setInterval(draw,10);
