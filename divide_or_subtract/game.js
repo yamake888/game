@@ -100,6 +100,7 @@ function subOne(){
 function subThree(){
     if(n%2==0){
         window.alert("N が偶数の時は使えません。");
+        return;
     }
     n-=3;last=n;
     cpuEvent();
