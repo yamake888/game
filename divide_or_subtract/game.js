@@ -56,7 +56,10 @@ game();
 /* コンピュータ計算部分 */
 
 function cpuEvent(){
-    if(n==0)window.alert("勝利！！すごい！！！");
+    if(n==0){
+        if(!easyFlag)window.alert("勝利！！すごい！！！");
+        else window.alert("勝利！（N=100にした。）");
+    }
     if(n%2==1&&n>=3){
         if(dp[n-3]==0){
             n-=3;
@@ -106,7 +109,14 @@ function subThree(){
     cpuEvent();
     game();
 }
-
+var easyFlag=false;
+function easyMode(){
+    flag=false;
+    easyFlag=true;
+    last=0;
+    n=100;
+    game();
+}
 var divideBtn=document.getElementById('divide');
 divideBtn.addEventListener('click',divide,false);
 
@@ -115,3 +125,6 @@ subOneBtn.addEventListener('click',subOne,false);
 
 var subThreeBtn=document.getElementById('subThree');
 subThreeBtn.addEventListener('click',subThree,false);
+
+var easyBtn=document.getElementById('easy');
+easyBtn.addEventListener('click',easyMode,false);
