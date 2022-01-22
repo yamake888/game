@@ -59,6 +59,7 @@ function cpuEvent(){
     if(n==0){
         if(!easyFlag)window.alert("勝利！！すごい！！！");
         else window.alert("勝利！（N=100にした。）");
+        return;
     }
     if(n%2==1&&n>=3){
         if(dp[n-3]==0){
