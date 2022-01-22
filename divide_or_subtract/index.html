@@ -1,32 +1,135 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>divide or subtract</title>
-        <style>
-        *{padding: 0;margin:0;}
-        canvas {background: white;display: block;margin:0 auto;}
-        </style>
-    </head>
-    <body>
-        <h1>Divide or subtract</h1>
-        <p>
-            　以下のゲームに勝ってください。<br>
-            　整数 N が与えられる。<br>
-            　あなたとコンピュータは、自分の手番を交互に繰り返す。手番はあなたから始まる。<br>
-            　各プレイヤーは、自分の手番において、<br>
-            　1. N を 2 で割る(N が偶数の時)<br>
-            　2. N から 1 引く<br>
-            　3. N から 3 引く(N が奇数かつ 3 以上の時)<br>
-            　のいずれかを選択し、実行できる。
-            　N を 0 にしたプレイヤーの勝利。<br>
-            　なお、このゲームでは先手が必勝となる N が与えられる。<br>
-        </p>
-        <canvas id="myCanvas" width="500" height="100"></canvas>
-        <button id='divide'>2 で割る (N が偶数の時使用可)</button><br>
-        <button id='subOne'>1 を引く (常に選択可)</button><br>
-        <button id='subThree'>3 を引く (N が奇数の時使用可)</button><br>
-        <button id='easy'>N = 100 にする。</button><br>
-        <script type="text/javascript" src="game.js"></script>
-    </body>
-</html>
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+var n = 10000;
+
+/* DP 前計算始め */
+
+var dp=[];
+for(var i=0;i<=n;++i){
+    dp.push(-1);
+}
+dp[0]=0;
+function mex(array){
+    for(var i=0;i<=3;++i){
+        var tmp=array.indexOf(i);
+        if(tmp==-1)return i;
+    }
+    return -1;
+}
+for(var i=1;i<=n;++i){
+    var buf=[];
+    buf.push(dp[i-1]);
+    if(i%2==1&&i>=3)buf.push(dp[i-3]);
+    if(i%2==0)buf.push(dp[i/2]);
+    dp[i]=mex(buf);
+}
+
+/*
+document.write(dp[n]);
+for(var i=1;i<=100;++i){
+    //document.write(i," = ",dp[i],"<br>");
+}
+*/
+
+/* DP 前計算終わり */
+/* 数字表示部分 */
+ctx.font="72px serif";
+var flag=false;
+var last=0;
+function game(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(!flag)ctx.fillText(n,0,80);
+    else{
+        ctx.font="18px serif";
+        var res="last = ";
+        res+=last;
+        ctx.fillText(res,0,20);
+        ctx.font="72px serif";
+        ctx.fillText(n,20,80);
+    }
+    flag=true;
+}
+game();
+/* 数字表示部分終わり */
+
+/* コンピュータ計算部分 */
+
+function cpuEvent(){
+    if(n==0){
+        if(!easyFlag)window.alert("勝利！！すごい！！！");
+        else window.alert("勝利！（N=100にした。）");
+    }
+    if(n%2==1&&n>=3){
+        if(dp[n-3]==0){
+            n-=3;
+            if(n==0){
+                window.alert("君の負け！");
+            }
+            return;
+        }
+    }
+    if(n%2==0){
+        if(dp[n/2]==0){
+            n/=2;
+            if(n==0)window.alert("君の負け！");
+            return;
+        }
+    }
+    if(dp[n-1]==0||true){
+        n-=1;
+        if(n==0)window.alert("君の負け！");
+        return;
+    }
+}
+
+function divide(){
+    if((n&1)&&n>0){
+        window.alert("N が奇数の時は使えません。");
+        return;
+    }
+    n/=2;
+    last=n;
+    cpuEvent();
+    game();
+}
+
+function subOne(){
+    if(n<=0)return;
+    n-=1;last=n;
+    cpuEvent();
+    game();
+}
+
+function subThree(){
+    if(n%2==0&&n>0){
+        window.alert("N が偶数の時は使えません。");
+        return;
+    }
+    if(n==1){
+        window.alert("N == 1 では使えません。");
+        return;
+    }
+    n-=3;last=n;
+    cpuEvent();
+    game();
+}
+var easyFlag=false;
+function easyMode(){
+    flag=false;
+    easyFlag=true;
+    last=0;
+    n=100;
+    game();
+}
+var divideBtn=document.getElementById('divide');
+divideBtn.addEventListener('click',divide,false);
+
+var subOneBtn=document.getElementById('subOne');
+subOneBtn.addEventListener('click',subOne,false);
+
+var subThreeBtn=document.getElementById('subThree');
+subThreeBtn.addEventListener('click',subThree,false);
+
+var easyBtn=document.getElementById('easy');
+easyBtn.addEventListener('click',easyMode,false);
