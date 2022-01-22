@@ -59,6 +59,7 @@ function cpuEvent(){
     if(n==0){
         if(!easyFlag)window.alert("勝利！！すごい！！！");
         else window.alert("勝利！（N=100にした。）");
+        return;
     }
     if(n%2==1&&n>=3){
         if(dp[n-3]==0){
@@ -84,10 +85,11 @@ function cpuEvent(){
 }
 
 function divide(){
-    if(n&1){
+    if((n&1)&&n>0){
         window.alert("N が奇数の時は使えません。");
         return;
     }
+    if(n<=0)return;
     n/=2;
     last=n;
     cpuEvent();
@@ -95,16 +97,22 @@ function divide(){
 }
 
 function subOne(){
+    if(n<=0)return;
     n-=1;last=n;
     cpuEvent();
     game();
 }
 
 function subThree(){
-    if(n%2==0){
+    if(n%2==0&&n>0){
         window.alert("N が偶数の時は使えません。");
         return;
     }
+    if(n==1){
+        window.alert("N == 1 では使えません。");
+        return;
+    }
+    if(n<=0)return;
     n-=3;last=n;
     cpuEvent();
     game();
