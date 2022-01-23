@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>divide or subtract</title>
+        <style>
+        *{padding: 0;margin:0;}
+        canvas {background: white;display: block;margin:0 auto;}
+        </style>
+    </head>
+    <body>
+        <h1>Divide or subtract</h1>
+        <p>
+            　以下のゲームに勝ってください。<br>
+            　整数 N が与えられる。<br>
+            　あなたとコンピュータは、自分の手番を交互に繰り返す。手番はあなたから始まる。<br>
+            　各プレイヤーは、自分の手番において、<br>
+            　1. N を 1 以外の約数で割る。<br>
+            　2. N から 1 引く。<br>
+            　のいずれかを選択し、実行できる。
+            　N を 0 にしたプレイヤーの勝利。<br>
+            　なお、このゲームでは先手が必勝となる N が与えられる。<br>
+        </p>
+        <canvas id="myCanvas" width="500" height="100"></canvas>
+        <button id='divide'>次の約数を表示</button><br>
+        <button id='execute'>割り算を実行</button><br>
+        <button id='subOne'>1 を引く</button><br>
+        <script type="text/javascript" src="game.js"></script>
+    </body>
+</html>
