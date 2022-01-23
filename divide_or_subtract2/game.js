@@ -86,7 +86,7 @@ function cpuEvent(){
         return;
     }
     for(var i=0;i<div[n].length;++i){
-        if(dp[n/i]==0){
+        if(dp[n/div[n][i]]==0){
             n/=div[n][i];
             return;
         }
