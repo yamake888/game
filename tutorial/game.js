@@ -3,6 +3,7 @@ var ctx = canvas.getContext("2d");
 
 var x = canvas.width/2;
 var y = canvas.height/2;
+var score = 0;
 
 var v = 1;
 var dx = v;
@@ -52,6 +53,7 @@ function drawCharactor(){
 function addVeloc(){
     dx*=0.9;
     dy*=0.9;
+    v*=0.9;
     paddleVeloc*=0.9;
 }
 
@@ -62,7 +64,7 @@ var speedDown=document.getElementById('speedDown');
 speedDown.addEventListener('click',addVeloc,false);
 var speedUp=document.getElementById('speedUp');
 speedUp.addEventListener('click',function(){
-    dx*=1.1;dy*=1.1;paddleVeloc*=1.1;
+    dx*=1.1;dy*=1.1;paddleVeloc*=1.1;v*=1.1;
 },false);
 
 function keyDownHandler(e){
@@ -86,10 +88,19 @@ function draw(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     drawBall();
     drawPaddle();
+    ctx.fillStyle='rgba(0,0,0)';
+    ctx.font="72px serif";
     ctx.fillText("✌ < チョキ",30,100);
+    ctx.font="18px serif";
+    var scoreString="score = ";
+    scoreString+=score;
+    ctx.fillText(scoreString,10,30);
+    ctx.font="72px serif";
     var paddleCollisionFlag = y+dy+ballRadius>=canvas.height-paddleHeight && (x+dx>=paddleX && x+dx<=paddleX+paddleWidth);
+    if(paddleCollisionFlag&&dy>0)score+=100;
     if(x + dx < ballRadius || x + dx + ballRadius > canvas.width)dx=-dx;
-    if(y + dy < ballRadius || y + dy + ballRadius > canvas.height || paddleCollisionFlag)dy=-dy;
+    if(y + dy + ballRadius > canvas.height || paddleCollisionFlag)dy=-v;
+    else if(y+dy<ballRadius)dy=-dy;
     x+=dx;
     y+=dy;
     if(paddleRightPress && paddleX+paddleWidth+paddleVeloc<=canvas.width)paddleX+=paddleVeloc;
