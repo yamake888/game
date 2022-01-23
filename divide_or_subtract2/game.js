@@ -91,10 +91,6 @@ function cpuEvent(){
             return;
         }
     }
-    if(Math.random<=0.5){
-        n-=1;
-        return;
-    }
     var r=Math.floor(Math.random()*div[n].length);
     n/=div[n][r];
     return;
