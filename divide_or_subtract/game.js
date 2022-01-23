@@ -25,12 +25,13 @@ for(var i=1;i<=n;++i){
     dp[i]=mex(buf);
 }
 
-/*
-document.write(dp[n]);
-for(var i=1;i<=100;++i){
-    //document.write(i," = ",dp[i],"<br>");
+for(var i=0;i<100;++i){
+    var x=Math.floor(Math.random()*499)*2+9001;
+    if(dp[x]!=0){
+        n=x;
+        break;
+    }
 }
-*/
 
 /* DP 前計算終わり */
 /* 数字表示部分 */
