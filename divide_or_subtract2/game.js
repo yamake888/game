@@ -20,17 +20,27 @@ function mex(array){
     }
     return -1;
 }
-for(var i=1;i<=n;++i){
+dp[1]=1;
+for(var i=2;i<=n;++i){
     var buf=[];
     buf.push(dp[i-1]);
-    for(var j=2;j<=i;++j){
-        if(i%j==0){
-            buf.push(dp[i/j]);
-            div[i].push(j);
-        }
+    for(var j=i;j<=n;j+=i){
+        div[j].push(i);
+    }
+    for(var j=0;j<div[i].length;++j){
+        buf.push(dp[i][i/div[j]]);
     }
     dp[i]=mex(buf);
 }
+
+for(var i=0;i<100;++i){
+    var x=Math.floor(Math.random()*1000)+9000;
+    if(dp[x]!=0){
+        n=x;
+        break;
+    }
+}
+
 /* DP 前計算終わり */
 var cur=0;// 今見ている数の何番目の約数か？
 /* 数字表示部分 */
