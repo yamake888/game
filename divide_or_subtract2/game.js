@@ -28,7 +28,7 @@ for(var i=2;i<=n;++i){
         div[j].push(i);
     }
     for(var j=0;j<div[i].length;++j){
-        buf.push(dp[i][i/div[j]]);
+        buf.push(dp[i/div[i][j]]);
     }
     dp[i]=mex(buf);
 }
@@ -105,6 +105,7 @@ function updateDivideNumber(){
 function divisionExecute(){
     if(n==0)return;
     n/=div[n][cur];
+    last=n;
     cur=0;
     cpuEvent();
     game();
