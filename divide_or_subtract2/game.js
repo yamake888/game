@@ -34,7 +34,7 @@ for(var i=2;i<=n;++i){
 }
 
 for(var i=0;i<100;++i){
-    var x=Math.floor(Math.random()*1000)+9000;
+    var x=Math.floor(Math.random()*499)*2+9001;
     if(dp[x]!=0){
         n=x;
         break;
