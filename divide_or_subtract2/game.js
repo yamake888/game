@@ -112,6 +112,7 @@ function divisionExecute(){
 function subOne(){
     if(n<=0)return;
     n-=1;last=n;
+    cur=0;
     cpuEvent();
     game();
 }
