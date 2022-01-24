@@ -30,7 +30,7 @@ function judgeWin(){
 /* 勝利判定 */
 /* DP 前計算始め */
 function DPinit(){
-    for(var i=0;i<=n;++i){
+    for(var i=0;i<=n+10;++i){
         dp.push(-1);
         div.push([]);
     }
@@ -43,7 +43,7 @@ function DPinit(){
         return -1;
     }
     dp[1]=1;
-    for(var i=2;i<=n;++i){
+    for(var i=2;i<=n+10;++i){
         var buf=[];
         buf.push(dp[i-1]);
         for(var j=i;j<=n;j+=i){
@@ -74,7 +74,6 @@ function init(){
         a[0]+=1;
         xorSum=getXorSum();
     }
-    document.write(xorSum);
 }
 /* 初期化終わり */
 
@@ -83,22 +82,29 @@ ctx.font="32px serif";
 var flag=false;
 var last=n;
 var lastString="";
+var savedString="";
 
-function drawLittleString(printString){
+function drawLittleString(printString,updateFlag){
     ctx.font="18px serif";
-    ctx.fillText(lastString,0,50);
+    if(updateFlag)ctx.fillText(lastString,0,50);
+    else ctx.fillText(savedString,0,50);
     var pointerString = "選択中:\t";
     pointerString+=a[pointer];
     pointerString+='\t/\t割るなら\t';
     var aVal=a[pointer];
     if(div[aVal].length>0)pointerString+=div[aVal][cur[pointer]];
     ctx.fillText(pointerString,0,150);
-    lastString = "last = ";
-    lastString+=printString;
     ctx.font="32px serif";
+    if(!updateFlag){
+        lastString=savedString;
+        return;
+    }
+    savedString=lastString;
+    lastString = "last = ";
+    lastString += printString;
 }
 
-function draw(){
+function draw(updateFlag=true){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     var printString="";
     for(var i=0;i<m;++i){
@@ -106,33 +112,55 @@ function draw(){
         if(i==m-1)break;
         printString+='\t/\t';
     }
-    drawLittleString(printString);
+    drawLittleString(printString,updateFlag);
     ctx.fillText(printString,0,100);
+    ctx.fillText(getXorSum(),300,200);
 }
 /* 数字表示部分終わり */
 
 /* コンピュータ計算部分 */
 function comChoice(){
     draw();
-    if(xorSum==0){
+    if(getXorSum()==0){
         for(var i=0;i<m;++i){
             if(a[i]>0){
                 var r=Math.floor(Math.random()*(div[a[i]].length+1));
                 if(r>=div[i].length){
                     a[i]-=1;
-                    xorSum=xorSum^(a[i]+1)^a[i];
                 }
                 else{
-                    xorSum=xorSum^a[i];
                     a[i]/=div[a[i]][r];
-                    xorSum=xorSum^a[i];
                 }
                 draw();
                 return;
             }
         }
     }
-    /* TODO: COM の必勝手順を書く */
+    /* COM 計算 */
+    for(var i=0;i<m;++i){
+        var bufXor=(getXorSum()^dp[a[i]]);
+        if(bufXor==dp[a[i]-1]){
+            a[i]-=1;
+            break;
+        }
+        else{
+            var bufFlag=false;
+            for(var j=0;j<div[a[i]].length;++j){
+                var nextA=a[i]/div[a[i]][j];
+                if(bufXor==dp[nextA]){
+                    bufFlag=true;
+                    a[i]=nextA;
+                    break;
+                }
+            }
+            if(bufFlag)break;
+        }
+    }
+    draw();
+    if(judgeWin()){
+        window.alert("負け！");
+    }
+    /* COM 計算 */
 }
 /* コンピュータ計算部分 */
 
@@ -141,8 +169,9 @@ function updateDivideNumber(){
     if(div[a[pointer]].length==0)return;
     cur[pointer]+=1;
     cur[pointer]%=div[a[pointer]].length;
-    draw();
+    draw(false);
 }
+
 function divisionExecute(){
     // 割り算を実行
     var i = pointer;
@@ -165,12 +194,13 @@ function subOne(){
     }
     comChoice();
 }
+
 function changeNext(){
     // 隣の要素を選択
     cur[pointer]=0;
     pointer+=1;
     pointer%=m;
-    draw();
+    draw(false);
 }
 
 var divideBtn=document.getElementById('divide');
