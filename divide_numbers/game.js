@@ -24,7 +24,7 @@ function getXorSum(){
 
 /* 勝利判定 */
 function judgeWin(){
-    for(var i=0;i<m;++i)if(a[i]!=0)return false;
+    for(var i=0;i<m;++i)if(a[i]!=1)return false;
     return true;
 }
 /* 勝利判定 */
@@ -34,7 +34,7 @@ function DPinit(){
         dp.push(-1);
         div.push([]);
     }
-    dp[0]=0;
+    dp[0]=1;
     function mex(array){
         for(var i=0;i<=n;++i){
             var tmp=array.indexOf(i);
