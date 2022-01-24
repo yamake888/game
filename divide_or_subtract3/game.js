@@ -1,7 +1,7 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
-var n = 10000/5;//A_iの最大値
+var n = 10000;//A_iの最大値
 var m=5;//A の数
 
 var winFlag=false;
@@ -54,6 +54,7 @@ function DPinit(){
         }
         dp[i]=mex(buf);
     }
+    //document.write(dp);
 }
 /* DP 前計算終わり */
 
@@ -114,7 +115,7 @@ function draw(updateFlag=true){
     }
     drawLittleString(printString,updateFlag);
     ctx.fillText(printString,0,100);
-    ctx.fillText(getXorSum(),300,200);
+    //ctx.fillText(getXorSum(),300,200);
 }
 /* 数字表示部分終わり */
 
