@@ -91,7 +91,7 @@ function drawLittleString(printString,updateFlag){
     ctx.fillText(lastString,0,50);
     var pointerString = "選択中:\t";
     pointerString+=a[pointer];
-    pointerString+='\t/\t割るなら\t';
+    pointerString+='\t/\t約数: \t';
     var aVal=a[pointer];
     if(div[aVal].length>0)pointerString+=div[aVal][cur[pointer]];
     ctx.fillText(pointerString,0,150);
@@ -169,6 +169,14 @@ function updateDivideNumber(){
     draw(false);
 }
 
+function prevDivideNumber(){
+    // 前の約数へ
+    if(div[a[pointer]].length==0)return;
+    cur[pointer]+=div[a[pointer]].length-1;
+    cur[pointer]%=div[a[pointer]].length;
+    draw(false);
+}
+
 function divisionExecute(){
     // 割り算を実行
     var i = pointer;
@@ -192,13 +200,24 @@ function subOne(){
     comChoice();
 }
 
-function changeNext(){
+function changeRight(){
     // 隣の要素を選択
     cur[pointer]=0;
     pointer+=1;
     pointer%=m;
     draw(false);
 }
+
+function changeLeft(){
+    // 隣の要素を選択
+    cur[pointer]=0;
+    pointer+=m-1;
+    pointer%=m;
+    draw(false);
+}
+
+var prevDivideBtn=document.getElementById('previewDivide');
+prevDivideBtn.addEventListener('click',prevDivideNumber,false);
 
 var divideBtn=document.getElementById('divide');
 divideBtn.addEventListener('click',updateDivideNumber,false);
@@ -209,8 +228,11 @@ exeBtn.addEventListener('click',divisionExecute,false);
 var subOneBtn=document.getElementById('subOne');
 subOneBtn.addEventListener('click',subOne,false);
 
-var changeNextBtn=document.getElementById('changeNext');
-changeNextBtn.addEventListener('click',changeNext,false);
+var changeRightBtn=document.getElementById('changeRight');
+changeRightBtn.addEventListener('click',changeRight,false);
+
+var changeLeftBtn=document.getElementById('changeLeft');
+changeLeftBtn.addEventListener('click',changeLeft,false);
 
 DPinit();
 init();

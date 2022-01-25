@@ -161,16 +161,25 @@ function updateDivideNumber(){
     draw(false);
 }
 
+function prevDivideNumber(){
+    // 前の約数へ
+    if(div[a[pointer]].length==0)return;
+    cur[pointer]+=div[a[pointer]].length-1;
+    cur[pointer]%=div[a[pointer]].length;
+    draw(false);
+}
+
 function divisionExecute(){
     // 割り算を実行
     var i = pointer;
     if(div[a[i]].length==0)return;
     a[i]/=div[a[i]][cur[i]];
     cur[i]=0;
+    draw();
     comChoice();
 }
 
-function changeNext(){
+function changeRight(){
     // 隣の要素を選択
     cur[pointer]=0;
     pointer+=1;
@@ -178,17 +187,29 @@ function changeNext(){
     draw(false);
 }
 
+function changeLeft(){
+    // 隣の要素を選択
+    cur[pointer]=0;
+    pointer+=m-1;
+    pointer%=m;
+    draw(false);
+}
+
+
+var prevDivideBtn=document.getElementById('previewDivide');
+prevDivideBtn.addEventListener('click',prevDivideNumber,false);
+
 var divideBtn=document.getElementById('divide');
 divideBtn.addEventListener('click',updateDivideNumber,false);
 
 var exeBtn=document.getElementById('execute');
 exeBtn.addEventListener('click',divisionExecute,false);
 
-//var subOneBtn=document.getElementById('subOne');
-//subOneBtn.addEventListener('click',subOne,false);
+var changeRightBtn=document.getElementById('changeRight');
+changeRightBtn.addEventListener('click',changeRight,false);
 
-var changeNextBtn=document.getElementById('changeNext');
-changeNextBtn.addEventListener('click',changeNext,false);
+var changeLeftBtn=document.getElementById('changeLeft');
+changeLeftBtn.addEventListener('click',changeLeft,false);
 
 DPinit();
 init();
