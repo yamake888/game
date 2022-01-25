@@ -124,7 +124,7 @@ function comChoice(){
     draw();
     if(getXorSum()==0){
         for(var i=0;i<m;++i){
-            if(a[i]>0){
+            if(a[i]>1){
                 var r=Math.floor(Math.random()*(div[a[i]].length));
                 if(false&&r>=div[i].length){
                     a[i]-=1;
