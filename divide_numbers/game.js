@@ -110,7 +110,7 @@ function draw(updateFlag=true){
     }
     drawLittleString(printString,updateFlag);
     ctx.fillText(printString,0,100);
-    ctx.fillText(getXorSum(),300,200);
+    //ctx.fillText(getXorSum(),300,200);
 }
 /* 数字表示部分終わり */
 
