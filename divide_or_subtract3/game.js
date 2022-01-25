@@ -87,8 +87,8 @@ var savedString="";
 
 function drawLittleString(printString,updateFlag){
     ctx.font="18px serif";
-    if(updateFlag)ctx.fillText(lastString,0,50);
-    else ctx.fillText(savedString,0,50);
+    if(!updateFlag)lastString=savedString;
+    ctx.fillText(lastString,0,50);
     var pointerString = "選択中:\t";
     pointerString+=a[pointer];
     pointerString+='\t/\t割るなら\t';
@@ -96,10 +96,6 @@ function drawLittleString(printString,updateFlag){
     if(div[aVal].length>0)pointerString+=div[aVal][cur[pointer]];
     ctx.fillText(pointerString,0,150);
     ctx.font="32px serif";
-    if(!updateFlag){
-        lastString=savedString;
-        return;
-    }
     savedString=lastString;
     lastString = "last = ";
     lastString += printString;
@@ -126,7 +122,7 @@ function comChoice(){
         for(var i=0;i<m;++i){
             if(a[i]>0){
                 var r=Math.floor(Math.random()*(div[a[i]].length+1));
-                if(r>=div[i].length){
+                if(r>=div[a[i]].length){
                     a[i]-=1;
                 }
                 else{
